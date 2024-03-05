@@ -63,7 +63,7 @@
             border: 1px solid #ccc;
         }
 
-        .form-group button {
+        .form-group input[type="submit"] {
             width: 100%;
             padding: 10px;
             background-color: #007bff;
@@ -74,7 +74,7 @@
             margin-left: 6px;
         }
 
-        .form-group button:hover {
+        .form-group input[type="submit"]:hover {
             background-color: #0056b3;
         }
 
@@ -90,6 +90,32 @@
         .already-user a:hover {
             text-decoration: underline;
         }
+        #message{
+            display: none;
+
+        }
+        #butt.disabled{
+            opacity: 0.5; /* Dim the button */
+           pointer-events: none; /* Disable pointer events */
+           cursor: not-allowed;
+        }
+        #showPasswordToggle{
+           cursor: pointer;
+           position: absolute;
+           display: none;
+           top: 51.8%;
+           right: 625px;
+           
+        }
+        #showPasswordToggle.when{
+            top:48.2%;
+        }
+        #showPasswordToggle.strong{
+            top:49.6%
+        }
+        #showPasswordToggle.enable{
+            display:block;
+        }
     </style>
 </head>
 
@@ -100,23 +126,92 @@
 
     <div class="signup-container">
         <h2>Sign Up</h2>
-        <form action="#" method="post">
+        <form action="/signup" method="post">
             <div class="form-group">
                 <label for="email">Email:</label>
                 <input type="email" id="email" name="email" required>
             </div>
-            <div class="form-group">
+            <div class="form-group" id="pass">
                 <label for="password">Password:</label>
                 <input type="password" id="password" name="password" required>
+                <span class="show-password-icon material-icons" id="showPasswordToggle">visibility_off</span>
+                <p id="message">Password is <span id="strength"></span></p>
             </div>
             <div class="form-group">
-                <button type="submit">Sign Up</button>
+                <input type="submit" id="butt" value="register">
             </div>
         </form>
         <div class="already-user">
-            <p>Already a user? <a href="signin.html">Log in here</a></p>
+            <p>Already a user? <a href="sigin.html">Log in here</a></p>
         </div>
     </div>
+
+
+
+
+    <script>
+        var pass=document.getElementById("password");
+        var msg=document.getElementById("message");
+        var str=document.getElementById("strength");
+        var but=document.getElementById("butt");
+        var eye=document.getElementById("showPasswordToggle");
+        pass.addEventListener("input",()=>{
+            if(pass.value.length>0){
+                msg.style.display="block";
+                eye.style.display="block";
+            }
+            else{
+                msg.style.display="none";
+                eye.style.display="none";
+                
+                
+                
+                
+                
+            }
+            if(pass.value.length<4){
+                str.innerHTML="weak,must be more than 8 character";
+                msg.style.color="red"
+                str.style.color="red";
+                butt.classList.add("disabled");
+                eye.classList.remove("strong");
+                eye.classList.add("when");
+                
+                
+                
+            }
+            else if(pass.value.length>=4 && pass.value.length<8){
+                str.innerHTML="medium,must be more than 8 character";
+                msg.style.color="red"
+                str.style.color="red";
+                butt.classList.add("disabled");
+                eye.classList.remove("strong");
+                eye.classList.add("when");
+                
+            }
+            else if(pass.value.length>=8){
+                str.innerHTML="strong";
+                msg.style.color="black"
+                str.style.color="black";
+                butt.classList.remove("disabled");
+                eye.classList.remove("when");
+                eye.classList.add("strong");
+
+                
+            }
+        });
+
+        showPasswordToggle.addEventListener("click", function() {
+            if (pass.type === "password") {
+                pass.type = "text";
+                showPasswordToggle.textContent = "visibility";
+            } else {
+                pass.type = "password";
+                showPasswordToggle.textContent = "visibility_off";
+            }
+        });
+
+    </script>
 </body>
 
 </html>
